@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+eval '/usr/bin/env perl -w $0 ${1+"$@"}'
+if 0;	
+
+#$Id: synsim,v 1.6 2002/10/16 15:27:40 wim Exp $
+
+use strict;
+use Simulation::Tools::SynSim;
+
+&synsim();

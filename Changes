@@ -1,0 +1,6 @@
+Revision history for Perl extension Simulation::Tools::SynSim.
+
+0.9.1  Mon Nov 11 13:48:31 2002
+	- original version; created by h2xs 1.21 with options
+		-X -n Simulation::Tools::SynSim
+
