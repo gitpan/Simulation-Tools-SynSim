@@ -1,7 +1,7 @@
 package Simulation::Tools::SynSim::PostProcLib;
 
 use vars qw( $VERSION );
-$VERSION = '0.9.1';
+$VERSION = '0.9.2';
 
 ################################################################################
 #                                                                              #
@@ -45,6 +45,7 @@ use Simulation::Tools::SynSim::Dictionary;
 			   $verylast
 			   $sweepvals
 			   $sweepvar
+			   $normvar
 			   $sweepvartitle
 			   $plot
 			   $interactive
@@ -119,6 +120,7 @@ $Simulation::Tools::SynSim::PostProcLib::last=($setvar ne 'none' && $sweepval==$
 my $devtype=$Simulation::Tools::SynSim::PostProcLib::simdata{DEVTYPE};
     my $ext=$Simulation::Tools::SynSim::PostProcLib::simdata{TEMPL};
 $Simulation::Tools::SynSim::PostProcLib::sweepvar=$Simulation::Tools::SynSim::PostProcLib::simdata{SWEEPVAR}||'none';
+$Simulation::Tools::SynSim::PostProcLib::normvar=$Simulation::Tools::SynSim::PostProcLib::simdata{NORMVAR}||'none';
 
 $Simulation::Tools::SynSim::PostProcLib::datacol=$Simulation::Tools::SynSim::PostProcLib::simdata{DATACOL}||1;
 
@@ -186,7 +188,8 @@ my %title=split('-',$title);
 my $legend='';
 $legendtitle='';
 foreach my $key (sort keys %title) {
-$legendtitle.=','.$make_nice{$key}{title};
+$legendtitle.=',';
+$legendtitle.=$make_nice{$key}{title}||$key;
 $legend.=$make_nice{$key}{$title{$key}}||$title{$key};
 $legend.=',';
 }
@@ -243,8 +246,10 @@ my %title=split('-',$title);
 my $legend='';
 my $legendtitle='';
 foreach my $key (sort keys %title) {
-$legendtitle.=','.$make_nice{$key}{title};
-$legend.=','.$make_nice{$key}{$title{$key}}||$title{$key};
+my $titlepart=$make_nice{$key}{title}||$key;
+$legendtitle.=','.$titlepart;
+my $legendpart=$make_nice{$key}{$title{$key}}||$title{$key};
+$legend.=','.$legendpart;
 }
 $legend=~s/^,//;
 $legendtitle=~s/^,//;

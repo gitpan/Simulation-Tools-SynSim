@@ -1,7 +1,7 @@
 package Simulation::Tools::SynSim::Main;
 
 use vars qw( $VERSION );
-$VERSION = '0.9.1';
+$VERSION = '0.9.2';
 
 ################################################################################
 #                                                                              #
@@ -51,7 +51,7 @@ my $dataset=shift;
 my $count=shift;
 my $dataref=shift;
 my $flagsref=shift;
-my ($batch,$interactive,$nosims,$plot,$verbose)=@{$flagsref};
+my ($batch,$interactive,$nosims,$plot,$verbose,$nowarn)=@{$flagsref};
 
 (my $nsims, my $simdataref)=@{$dataref};
 
@@ -97,7 +97,7 @@ $commandline=~s/inputfile/$inputfile/i;
 foreach my $type ($devtype,$simtype) {
   if($type) {
 my $nsim=($simn eq '')?0:$simn;
-  &gen_sim_script ($nsim-1,"$simtype$ext",\%simdata,\*NEW,$dataset);
+  &gen_sim_script ($nsim-1,"$simtype$ext",\%simdata,\*NEW,$dataset,$nowarn);
   print NEW ("\n");
 }
 } # device and simulation templates
@@ -158,6 +158,7 @@ my $simdataref=shift;
 my %simdata=%{$simdataref};
 my $fh=shift; 
 my $dataset=shift;
+my $nowarn=shift;
 
 	# OPEN TEMPLATE
 	open (TEMPL, "<$templfilename")||die "Can't open $templfilename\n";
@@ -180,7 +181,7 @@ my $dataset=shift;
 		if($line=~/\b(_\w+?)\b/&&$line!~/$1\$/) {
 		  my $nondefvar=$1;
 		  $line=~s/$nondefvar/0/;
-		  print STDERR "\nWarning: $nondefvar ($templfilename) not defined in $dataset.\n"; #Substituted by 0.\n";
+		  print STDERR "\nWarning: $nondefvar ($templfilename) not defined in $dataset.\n" unless $nowarn; #Substituted by 0.\n";
 		} # if some parameter is still there
 		print $fh $line;
 	} # while

@@ -6,10 +6,10 @@ use strict;
 WriteMakefile(
     'NAME'		=> 'Simulation::Tools::SynSim',
     'VERSION_FROM'	=> 'SynSim.pm', # finds $VERSION
-   ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
-    'ABSTRACT'=> 'Simulation Automation Tool', 
-    'AUTHOR'     => 'Wim Vanderbauwhede <wim@motherearth.org>') : ()),
-,
+   ($] >= 5.005 ?   ## Add these new keywords supported since 5.005
+    ('ABSTRACT' => 'Simulation Automation Tool', 
+    'AUTHOR'   => 'Wim Vanderbauwhede <wim@motherearth.org>') : ()),
+
 );
 
 sub MY::postamble {

@@ -4,6 +4,8 @@ if 0;
 
 #$Id: synsim,v 1.6 2002/10/16 15:27:40 wim Exp $
 
+#$VERSION = '0.9.1';
+
 use strict;
 use Simulation::Tools::SynSim;
 

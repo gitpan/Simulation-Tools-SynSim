@@ -1,7 +1,7 @@
 package Simulation::Tools::SynSim;
 
 use vars qw( $VERSION );
-$VERSION = '0.9.1';
+$VERSION = '0.9.2';
 
 #################################################################################
 #                                                                              	#
@@ -44,7 +44,7 @@ my $datafile=shift||'synsim.data';
 #
 ################################################################################
 
-my @flags=my ($batch,$interactive,$nosims,$plot,$verbose)=@{&preprocess_commandline($datafile)};
+my @flags=my ($batch,$interactive,$nosims,$plot,$verbose,$nowarn)=@{&preprocess_commandline($datafile)};
 my $dataset=$datafile;
 $dataset=~s/\.data//;
 print STDERR "\nCreating Loops.pm...\n";
@@ -74,7 +74,7 @@ return 1;
 
 sub preprocess_commandline {
 my $datafile=$_[0];
-my ($batch,$interactive,$nosims,$plot,$verbose)=(0,0,0,0,0);
+my ($batch,$interactive,$nosims,$plot,$verbose,$nowarn)=(0,0,0,0,0,0);
 my $default=1;
 if(@ARGV) {
 my $dtf=0;
@@ -85,10 +85,10 @@ my $dtf=0;
 }
       if(/-b/){$batch=1;next} 
       if(/-i/){$interactive=1;next}
-      if(/-N/i){$nosims=1;next}
-
+      if(/-N/){$nosims=1;next}
       if(/-p/){$plot=1;next}
       if(/-v/){$verbose=1;next}
+      if(/-n/){$nowarn=1;next;}
       if(/-h|-\?/){ 
 my $script=$0;
 $script=~s/.*\///;
@@ -99,7 +99,7 @@ containing the script.
 This directory must contain at least a TEMPLATES/SIMTYPE subdir 
 with the simulation templates, and a data file. See documentation for more information.
 
-syntax: ../$script [-h -i -p -b -v -N -f datafile]
+syntax: ./$script [-h -i -p -b -v -N -f datafile]
 
 Possible switches:
 
@@ -108,6 +108,7 @@ none: defaults to -f $datafile
  -i : interactive. Creates a plot on the screen after every iteration.
  -p : plot.  Not fully implemented yet.
  -v : 'verbose'. Sends simulator output to STDOUT, otherwise to [simulator].log file
+ -n : 'no warnings'. Turn off warnings for undefined variables.
  -N : 'No simulations'. Does only postprocessing
  -h, -? : this help
 HELP
@@ -129,7 +130,7 @@ with the device and analysis templates, and a data file
 ";
 }
 
-return [$batch,$interactive,$nosims,$plot,$verbose];
+return [$batch,$interactive,$nosims,$plot,$verbose,$nowarn];
 } #END of preprocess_commandline
 
 #-------------------------------------------------------------------------------
@@ -1155,7 +1156,7 @@ directory which contains the TEMPLATES subdir and the datafile (like the Example
 
 The command line is as follows:
 
-	../synsim [-h -i -p -b -v -N -f datafile]
+	./synsim [-h -i -p -b -v -N -f datafile]
 
 The C<synsim> script supports following command line options:
 

@@ -28,15 +28,20 @@ SIMTYPE : bufsim3
 DEVTYPE : OPSnode
 TEMPL : .templ
 # the program that runs the input file
-COMMAND : perl
+COMMAND : perl inputfile outputfile
 # To filter the output of the simulation
 #if not specified, defaults to DEVTYPE
 OUTPUT_FILTER_PATTERN : .*
 # Name of the template file for the result analysis
 ANALYSIS_TEMPLATE : ErrorFlags
 SWEEPVAR : _NBUFS
+NORMVAR : _NPACK
 # assuming the raw output comes in whitespace-separated columns
 DATACOL: 4
+#logscale : x, y or xy
+LOGSCALE: Y
+YLABEL: Packet loss
+
 # number of packets to be generated
 _NPACK = 1000000
 # number of ports
